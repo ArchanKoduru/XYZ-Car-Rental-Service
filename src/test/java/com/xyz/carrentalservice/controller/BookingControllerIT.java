@@ -1,7 +1,7 @@
 package com.xyz.carrentalservice.controller;
 
-import com.xyz.carrentalservice.config.CarPricingClient;
-import com.xyz.carrentalservice.config.DrivingLicenseClient;
+import com.xyz.carrentalservice.client.CarPricingClient;
+import com.xyz.carrentalservice.client.DrivingLicenseClient;
 import com.xyz.carrentalservice.dto.BookingRequest;
 import com.xyz.carrentalservice.entities.Car;
 import com.xyz.carrentalservice.repository.CarRepository;

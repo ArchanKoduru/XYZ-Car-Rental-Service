@@ -1,5 +1,6 @@
-package com.xyz.carrentalservice.config;
+package com.xyz.carrentalservice.stub;
 
+import com.xyz.carrentalservice.client.DrivingLicenseClient;
 import com.xyz.carrentalservice.exception.LicenseValidationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

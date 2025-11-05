@@ -23,7 +23,16 @@ http://localhost:8080/api/v1
 
 ---
 
+## Swagger URL
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+---
+
 ## Endpoints
+
 
 ### 1. Create Booking
 

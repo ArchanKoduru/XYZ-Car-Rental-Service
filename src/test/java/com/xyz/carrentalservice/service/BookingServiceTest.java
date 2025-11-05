@@ -1,23 +1,22 @@
 package com.xyz.carrentalservice.service;
 
-import com.xyz.carrentalservice.config.CarPricingClient;
-import com.xyz.carrentalservice.config.DrivingLicenseClient;
+import com.xyz.carrentalservice.client.CarPricingClient;
+import com.xyz.carrentalservice.client.DrivingLicenseClient;
 import com.xyz.carrentalservice.dto.BookingRequest;
 import com.xyz.carrentalservice.dto.BookingResponse;
 import com.xyz.carrentalservice.entities.Booking;
 import com.xyz.carrentalservice.entities.Car;
 import com.xyz.carrentalservice.exception.*;
 import com.xyz.carrentalservice.repository.BookingRepository;
+import com.xyz.carrentalservice.repository.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.client.RestClientException;
+
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +31,9 @@ class BookingServiceTest {
 
     @Mock
     private BookingRepository repository;
+
+    @Mock
+    private CarRepository carRepository;
 
     @Mock
     private DrivingLicenseClient licenseClient;
@@ -66,6 +68,8 @@ class BookingServiceTest {
         tooLongBookingRequest.setCarSegment(Car.CarSegment.MEDIUM);
         tooLongBookingRequest.setStartDate(LocalDate.now());
         tooLongBookingRequest.setEndDate(LocalDate.now().plusDays(31));
+
+
     }
 
     @Test
@@ -77,6 +81,14 @@ class BookingServiceTest {
         // Mock CarPricingClient
         when(pricingClient.getRate(any()))
                 .thenReturn(new CarPricingClient.RateResponse("MEDIUM", 50.0));
+        Car car = Car.builder()
+                .id(1L)
+                .carName("Toyota Corolla")
+                .segment(Car.CarSegment.MEDIUM)
+                .dailyRate(50.0)
+                .build();
+        when(carRepository.findFirstBySegment(Car.CarSegment.MEDIUM))
+                .thenReturn(Optional.of(car));
 
         when(repository.save(any(Booking.class))).thenAnswer(inv -> inv.getArgument(0));
 

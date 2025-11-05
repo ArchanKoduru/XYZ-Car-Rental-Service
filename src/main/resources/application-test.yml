@@ -35,3 +35,9 @@ rate:
 api:
   license-url: /license/details
   rate-url: /rental/rate
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

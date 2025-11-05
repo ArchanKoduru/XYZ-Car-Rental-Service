@@ -1,7 +1,7 @@
 package com.xyz.carrentalservice.util;
 
-import com.xyz.carrentalservice.config.CarPricingClient;
-import com.xyz.carrentalservice.config.DrivingLicenseClient;
+import com.xyz.carrentalservice.client.CarPricingClient;
+import com.xyz.carrentalservice.client.DrivingLicenseClient;
 import com.xyz.carrentalservice.exception.LicenseValidationException;
 import com.xyz.carrentalservice.exception.RateUnavailableException;
 

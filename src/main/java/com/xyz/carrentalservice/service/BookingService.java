@@ -1,12 +1,14 @@
 package com.xyz.carrentalservice.service;
 
-import com.xyz.carrentalservice.config.CarPricingClient;
-import com.xyz.carrentalservice.config.DrivingLicenseClient;
+import com.xyz.carrentalservice.client.CarPricingClient;
+import com.xyz.carrentalservice.client.DrivingLicenseClient;
 import com.xyz.carrentalservice.dto.BookingRequest;
 import com.xyz.carrentalservice.dto.BookingResponse;
 import com.xyz.carrentalservice.entities.Booking;
+import com.xyz.carrentalservice.entities.Car;
 import com.xyz.carrentalservice.exception.*;
 import com.xyz.carrentalservice.repository.BookingRepository;
+import com.xyz.carrentalservice.repository.CarRepository;
 import com.xyz.carrentalservice.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ import java.time.temporal.ChronoUnit;
 public class BookingService {
 
     private final BookingRepository repository;
-
+    private final CarRepository carRepository;
     private final DrivingLicenseClient licenseClient;
     private final CarPricingClient pricingClient;
 
@@ -64,6 +66,11 @@ public class BookingService {
         long days = ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate());
         double rentalPrice = days * rateResponse.ratePerDay();
 
+        System.out.println("findFirstBySegment: "+request );
+        System.out.println("findFirstBySegment: "+request.getCarSegment() );
+        Car car = carRepository.findFirstBySegment(request.getCarSegment())
+                .orElseThrow(() -> new BookingValidationException("No available car found for segment: " + request.getCarSegment()));
+
         Booking booking = Booking.builder()
                 .drivingLicenseNumber(request.getDrivingLicenseNumber())
                 .customerName(licenseResponse.ownerName())
@@ -72,6 +79,7 @@ public class BookingService {
                 .endDate(request.getEndDate())
                 .carSegment(request.getCarSegment())
                 .rentalPrice(rentalPrice)
+                .car(car)
                 .build();
 
         return repository.save(booking);

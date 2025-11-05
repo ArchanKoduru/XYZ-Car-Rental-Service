@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class Booking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,8 +28,11 @@ public class Booking {
 
     private Double rentalPrice;
 
-    // Relationship to Car
-    @OneToOne
-    @JoinColumn(name = "car_id")
+    /**
+     * Many bookings can belong to one car.
+     * 'car_id' is the foreign key in the booking table.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 }

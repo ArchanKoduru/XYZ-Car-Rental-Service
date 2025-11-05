@@ -1,12 +1,11 @@
-package com.xyz.carrentalservice.config;
+package com.xyz.carrentalservice.stub;
 
+import com.xyz.carrentalservice.client.CarPricingClient;
 import com.xyz.carrentalservice.exception.RateUnavailableException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("${api.rate-url}")
